@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>زیارت‌نامه | حریم رضوی</title>
+    
+    <!-- فونت وزیرمتن -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- آیکون‌های Tabler -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <style>
+        /* متغیرهای رنگی مشابه اپ اصلی */
+        :root {
+            --primary: #00838f;
+            --primary-dark: #005662;
+            --secondary: #d4af37;
+            --bg-color: #faf8f5;
+            --surface: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 110px; /* فاصله برای پلیر ثابت پایین */
+        }
+
+        /* هدر صفحه دعا */
+        .prayer-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0, 131, 143, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .prayer-header h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        /* کانتینر اصلی متن دعا */
+        .prayer-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* کارت اصلی متن */
+        .prayer-content-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border: 1px solid #f0f0f0;
+            min-height: 50vh;
+            position: relative;
+        }
+
+        /* استایل‌های تبدیل مارک‌داون به HTML */
+        .markdown-body {
+            line-height: 2.2;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            text-align: justify;
+        }
+
+        .markdown-body h1, 
+        .markdown-body h2, 
+        .markdown-body h3 {
+            color: var(--primary-dark);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 800;
+            text-align: center;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .markdown-body h1 { font-size: 1.3rem; }
+        .markdown-body h2 { font-size: 1.2rem; }
+        .markdown-body h3 { font-size: 1.1rem; }
+
+        /* پاراگراف‌های عربی */
+        .markdown-body blockquote {
+            background: #fdfbf7;
+            border-right: 4px solid var(--secondary);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-family: 'Traditional Arabic', 'Amiri', serif;
+            font-size: 1.4rem;
+            line-height: 2;
+            color: #1a1a1a;
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.05);
+        }
+
+        .markdown-body p {
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .markdown-body hr {
+            border: none;
+            height: 1px;
+            background: #eee;
+            margin: 30px 0;
+        }
+
+        .loading-text {
+            text-align: center;
+            padding: 40px;
+            color: var(--primary);
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* =========================================
+           پلیر صوتی سفارشی (Sticky)
+           ========================================= */
+        .custom-audio-player {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 30px);
+            max-width: 550px;
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 12px 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+            border: 1px solid #eee;
+        }
+
+        /* ردیف اول: دکمه پخش و نوار پیشرفت */
+        .player-main-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* دکمه پخش */
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 131, 143, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .play-btn:active {
+            transform: scale(0.9);
+        }
+
+        .play-btn i {
+            margin-right: 2px;
+        }
+
+        /* نوار پیشرفت و زمان */
+        .player-controls {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .progress-bar {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            direction: ltr;
+        }
+
+        /* ردیف دوم: کنترل‌های ۱۰ ثانیه و سرعت */
+        .player-extra-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
+        }
+
+        .skip-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .skip-btn {
+            background: none;
+            border: none;
+            color: var(--primary-dark);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.65rem;
+            gap: 2px;
+        }
+
+        .skip-btn i {
+            font-size: 1.3rem;
+        }
+
+        /* دکمه‌های سرعت پخش */
+        .speed-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .speed-btn {
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 0.7rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-main);
+        }
+
+        .speed-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .speed-btn:active {
+            transform: scale(0.9);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- هدر -->
+    <header class="prayer-header">
+        <a href="index.html" class="back-btn">
+            <i class="ti ti-arrow-right"></i>
+        </a>
+        <h1 id="prayer-title">در حال بارگذاری...</h1>
+    </header>
+
+    <!-- محتوای دعا -->
+    <main class="prayer-container">
+        <div class="prayer-content-card">
+            <div id="prayer-text" class="markdown-body">
+                <div class="loading-text">در حال دریافت متن دعا...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- پلیر صوتی ثابت پایین -->
+    <div class="custom-audio-player">
+        <!-- ردیف اصلی (پخش و نوار پیشرفت) -->
+        <div class="player-main-row">
+            <button class="play-btn" id="play-btn" onclick="togglePlay()">
+                <i class="ti ti-player-play" id="play-icon"></i>
+            </button>
+
+            <div class="player-controls">
+                <input type="range" class="progress-bar" id="progress-bar" min="0" max="100" value="0" oninput="seekAudio(this.value)">
+                <div class="time-display">
+                    <span id="current-time">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ردیف دوم (۱۰ ثانیه و سرعت) -->
+        <div class="player-extra-row">
+            <div class="speed-controls">
+                <button class="speed-btn" onclick="setPlaybackSpeed(1)">x1</button>
+                <button class="speed-btn" onclick="setPlaybackSpeed(1.25)">x1.25</button>
+                <button class="speed-btn" onclick="setPlaybackSpeed(1.5)">x1.5</button>
+                <button class="speed-btn" onclick="setPlaybackSpeed(1.75)">x1.75</button>
+                <button class="speed-btn" onclick="setPlaybackSpeed(2)">x2</button>
+            </div>
+        </div>
+
+        <!-- المان صوتی مخفی -->
+        <audio id="audio-element"></audio>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. تنظیمات بر اساس پارامتر URL
+        // ==========================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const prayerId = urlParams.get('p') || 'aminollah';
+
+        const prayersConfig = {
+            'aminollah': {
+                title: 'زیارت امین‌الله',
+                textPath: 'prayers/aminollah/text.md',
+                audioPath: 'prayers/aminollah/audio.mp3'
+            },
+            'ashura': {
+                title: 'زیارت عاشورا',
+                textPath: 'prayers/ashura/text.md',
+                audioPath: 'prayers/ashura/audio.mp3'
+            }
+        };
+
+        const config = prayersConfig[prayerId];
+
+        if (!config) {
+            document.getElementById('prayer-title').innerText = 'خطا';
+            document.getElementById('prayer-text').innerHTML = '<p style="text-align:center; padding: 20px;">صفحه مورد نظر یافت نشد.</p>';
+        } else {
+            document.getElementById('prayer-title').innerText = config.title;
+            document.title = config.title + ' | حریم رضوی';
+            
+            document.getElementById('audio-element').src = config.audioPath;
+            fetchMarkdown(config.textPath);
+        }
+
+        // ==========================================
+        // 2. دریافت متن مارک‌داون (MD)
+        // ==========================================
+        async function fetchMarkdown(path) {
+            const container = document.getElementById('prayer-text');
+            
+            try {
+                const response = await fetch(path);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const markdownText = await response.text();
+                container.innerHTML = parseMarkdown(markdownText);
+                
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                container.innerHTML = `
+                    <div style="text-align:center; padding: 20px; color: #d32f2f;">
+                        <i class="ti ti-alert-circle" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                        <p>خطا در بارگذاری متن دعا.</p>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">لطفاً فایل <b>${path}</b> را در مسیر پروژه قرار دهید.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function parseMarkdown(md) {
+            let html = md
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+                .replace(/^---$/gim, '<hr>')
+                .replace(/^\s*$/gim, '</p><p>');
+            
+            html = `<p>${html}</p>`;
+            html = html.replace(/<p><\/p>/g, '');
+            html = html.replace(/<p><h/g, '<h');
+            html = html.replace(/<\/h([1-3])><\/p>/g, '</h$1>');
+            html = html.replace(/<p><blockquote>/g, '<blockquote>');
+            html = html.replace(/<\/blockquote><\/p>/g, '</blockquote>');
+            html = html.replace(/<p><hr><\/p>/g, '<hr>');
+            
+            return html;
+        }
+
+        // ==========================================
+        // 3. منطق پلیر صوتی
+        // ==========================================
+        const audio = document.getElementById('audio-element');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationEl = document.getElementById('duration');
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = 'ti ti-player-pause';
+            } else {
+                audio.pause();
+                playIcon.className = 'ti ti-player-play';
+            }
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            if (!isNaN(audio.duration)) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressBar.value = percent;
+                currentTimeEl.innerText = formatTime(audio.currentTime);
+            }
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationEl.innerText = formatTime(audio.duration);
+        });
+
+        function seekAudio(value) {
+            if (!isNaN(audio.duration)) {
+                const time = (value / 100) * audio.duration;
+                audio.currentTime = time;
+            }
+        }
+
+        function skipAudio(seconds) {
+            if (!isNaN(audio.duration)) {
+                audio.currentTime += seconds;
+            }
+        }
+
+        audio.addEventListener('ended', () => {
+            playIcon.className = 'ti ti-player-play';
+            progressBar.value = 0;
+            currentTimeEl.innerText = "0:00";
+        });
+
+        // ==========================================
+        // 4. تنظیم سرعت پخش
+        // ==========================================
+        function setPlaybackSpeed(speed) {
+            audio.playbackRate = speed;
+            
+            // آپدیت کردن دکمه فعال
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseFloat(btn.innerText.replace('x', '')) === speed) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // تنظیم عدد اولیه نمایش زمان
+        currentTimeEl.innerText = "0:00";
+        durationEl.innerText = "0:00";
+        
+        // فعال کردن دکمه x1 به صورت پیش‌فرض
+        document.querySelector('.speed-btn').classList.add('active');
+    </script>
+</body>
+</html>

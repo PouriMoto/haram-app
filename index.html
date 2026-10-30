@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>امام رضا (ع) قربونت برم</title>
+    
+    <!-- فونت وزیرمتن -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <!-- آیکون‌های Tabler (به صورت CSS برای اعمال بهتر) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- استایل‌های اصلی برنامه -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ================= هدر اصلی ================= -->
+    <header id="main-header">
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <h1>امام رضا (ع) قربونت برم</h1>
+            <p>درد و دل‌های خود را با آقا در میان بگذارید</p>
+        </div>
+    </header>
+
+    <!-- ================= تب 1: خانه ================= -->
+    <main id="tab-home" class="tab-content active">
+        
+        <!-- ویدیو صلوات خاصه -->
+        <section class="video-section">
+            <video id="main-video" controls poster="assets/images/haram-header.jpg">
+                <source src="assets/videos/salavat-khas.mp4" type="video/mp4">
+                مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+            </video>
+            <p class="video-caption">صلوات خاصه امام رضا (ع)</p>
+        </section>
+
+        <!-- دسترسی سریع به دعاها -->
+        <section class="prayers-section">
+            <h2 class="section-title">زیارت‌نامه‌ها</h2>
+            
+            <a href="prayer.html?p=aminollah" class="prayer-card">
+                <div class="prayer-icon"><i class="ti ti-book-2"></i></div>
+                <div class="prayer-info">
+                    <h3>زیارت امین‌الله</h3>
+                    <p>متن و صوت زیارت</p>
+                </div>
+                <i class="ti ti-chevron-left arrow-icon"></i>
+            </a>
+
+            <a href="prayer.html?p=ashura" class="prayer-card">
+                <div class="prayer-icon" style="color: #d32f2f; background: #ffebee;"><i class="ti ti-droplet"></i></div>
+                <div class="prayer-info">
+                    <h3>زیارت عاشورا</h3>
+                    <p>متن و صوت زیارت</p>
+                </div>
+                <i class="ti ti-chevron-left arrow-icon"></i>
+            </a>
+        </section>
+
+        <!-- آهنگ‌های معنوی (داینامیک) -->
+        <section class="music-section">
+            <h2 class="section-title">نوای معنوی</h2>
+            <div id="music-list" class="music-list">
+                <!-- لیست آهنگ‌ها توسط جاوااسکریپت از فایل JSON پر می‌شود -->
+                <div class="media-card skeleton">
+                    <div class="media-info"><h3>در حال بارگذاری آهنگ‌ها...</h3></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= تب 2: درد و دل‌ها ================= -->
+    <main id="tab-messages" class="tab-content">
+        <div class="chat-container" id="chat-list">
+            <!-- پیام‌ها توسط جاوااسکریپت اضافه می‌شوند -->
+        </div>
+        <div class="loader" id="loader">در حال دریافت پیام‌ها...</div>
+    </main>
+
+    <!-- ================= تب 3: صلوات‌شمار و نائب‌الزیاره ================= -->
+    <main id="tab-stats" class="tab-content">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-salavat-display">۰</div>
+                <div class="stat-label">کل صلوات‌ها</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-nayeb-display">۰</div>
+                <div class="stat-label">نائب‌الزیاره‌ها</div>
+            </div>
+        </div>
+
+        <div class="action-card" onclick="sendAction('salavat')">
+            <div class="action-icon"><i class="ti ti-heart-handshake"></i></div>
+            <div class="action-title">صلوات بفرست</div>
+            <div class="action-desc">اللهم صل علی محمد و آل محمد</div>
+        </div>
+
+        <div class="action-card" onclick="sendAction('nayeb')">
+            <div class="action-icon" style="color: var(--primary);"><i class="ti ti-walk"></i></div>
+            <div class="action-title">نائب‌الزیاره شوید</div>
+            <div class="action-desc">به نیابت از حضرت صاحب الزمان (عج)</div>
+        </div>
+    </main>
+
+    <!-- ================= نوار پلیر شناور (بالای Bottom Nav) ================= -->
+    <div id="mini-player" class="mini-player">
+        <div class="mini-player-info">
+            <i class="ti ti-music"></i>
+            <span id="mini-player-title">در حال پخش...</span>
+        </div>
+        
+        <!-- دکمه‌های کنترل -->
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="mini-player-btn" onclick="toggleMiniPlayer()">
+                <i class="ti ti-player-pause" id="mini-player-icon"></i>
+            </button>
+            <button class="mini-player-close" onclick="closeMiniPlayer()">
+                <i class="ti ti-x"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= نوار پایین (Bottom Nav) ================= -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="switchTab('home', this)">
+            <i class="ti ti-home"></i>
+            <span>خانه</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchTab('messages', this)">
+            <i class="ti ti-message-circle"></i>
+            <span>درد و دل‌ها</span>
+        </a>
+        
+        <!-- دکمه شناور وسط (بیضی شکل با آیکون و متن) -->
+        <div class="fab-center" onclick="openBottomSheet()">
+            <i class="ti ti-pencil"></i>
+            <span>درد و دل با امام رضا (ع)</span>
+        </div>
+
+        <a href="#" class="nav-item" onclick="switchTab('stats', this)">
+            <i class="ti ti-heart"></i>
+            <span>صلوات‌شمار</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showToast('به زودی...')">
+            <i class="ti ti-user"></i>
+            <span>پروفایل</span>
+        </a>
+    </nav>
+
+    <!-- ================= Bottom Sheet (فرم ثبت درد و دل) ================= -->
+    <div class="bottom-sheet-overlay" id="sheet-overlay" onclick="closeBottomSheet()"></div>
+    <div class="bottom-sheet" id="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">درد و دل با امام رضا (ع)</div>
+        
+        <div class="form-group">
+            <input type="text" class="form-input" id="input-name" placeholder="نام شما (اختیاری)">
+        </div>
+        <div class="form-group">
+            <input type="tel" class="form-input" id="input-phone" placeholder="شماره تماس (اختیاری)">
+        </div>
+        
+        <div class="chips-container">
+            <div class="chip" onclick="setChip('🤲 دعا برای آرامش قلب')">🤲 آرامش قلب</div>
+            <div class="chip" onclick="setChip('🌿 شفای مریض')">🌿 شفای مریض</div>
+            <div class="chip" onclick="setChip('💚 سلامتی و عاقبت‌به‌خیری')">💚 سلامتی</div>
+            <div class="chip" onclick="setChip('🕊️ فرج و گشایش')">🕊️ فرج و گشایش</div>
+            <div class="chip" onclick="setChip('🌙 هدایت و ایمان')">🌙 هدایت</div>
+            <div class="chip" onclick="setChip('✨ حاجت‌های دنیا و آخرت')">✨ حاجت‌ها</div>
+        </div>
+
+        <div class="form-group" style="flex: 1;">
+            <textarea class="form-textarea" id="input-message" placeholder="اینجا بنویسید..."></textarea>
+        </div>
+
+        <!-- دکمه ارسال -->
+        <button class="submit-btn" id="submit-btn" onclick="submitMessage()">ارسال</button>
+    </div>
+
+    <!-- Toast برای نمایش پیام‌های سیستمی -->
+    <div class="toast" id="toast">پیام شما ثبت شد</div>
+
+    <!-- اسکریپت اصلی برنامه -->
+    <script src="script.js"></script>
+</body>
+</html>

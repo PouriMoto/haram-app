@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>حریم رضوی | درد و دل با امام رضا (ع)</title>
+    <!-- فونت وزیرمتن -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <!-- آیکون‌های Tabler -->
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/dist/tabler-icons.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #00838f; /* فیروزه‌ای */
+            --primary-light: #4fb3bf;
+            --secondary: #d4af37; /* طلایی */
+            --bg-color: #faf8f5; /* کرم روشن */
+            --surface: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --border-radius: 20px;
+            --nav-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding-bottom: var(--nav-height);
+        }
+
+        /* هدر اصلی */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 131, 143, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/islamic-art.png'); /* پترن اسلیمی ساده */
+            opacity: 0.1;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* محتوای تب‌ها */
+        .tab-content {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* تب 1: خانه */
+        .media-card {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .media-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-light);
+            color: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .media-info h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .media-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* تب 2: چت‌ها */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-bubble {
+            background: var(--surface);
+            border-radius: 18px 18px 18px 4px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-right: 4px solid var(--primary);
+            position: relative;
+        }
+
+        .chat-name {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* نمایش 3 خط */
+            -webkit-box-orient: vertical;
+        }
+
+        .chat-text.expanded {
+            -webkit-line-clamp: unset;
+            display: block;
+        }
+
+        .read-more-btn {
+            color: #0288d1; /* آبی */
+            background: none;
+            border: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 5px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* تب 3: صلوات و نائب‌الزیاره */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .action-card {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .action-card:active {
+            transform: scale(0.98);
+        }
+
+        .action-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .action-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .action-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* نوار پایین (Bottom Nav) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: var(--surface);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            width: 60px;
+            font-size: 0.7rem;
+            gap: 4px;
+            transition: 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 1.5rem;
+        }
+
+        /* دکمه شناور وسط (FAB) */
+        .fab-center {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary), #ffd700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            border: 4px solid var(--bg-color);
+            cursor: pointer;
+            z-index: 101;
+            transition: transform 0.2s;
+        }
+
+        .fab-center:active {
+            transform: translateX(-50%) scale(0.9);
+        }
+
+        /* Bottom Sheet */
+        .bottom-sheet-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .bottom-sheet-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .bottom-sheet {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 75vh;
+            background: var(--surface);
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            z-index: 201;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        }
+
+        .bottom-sheet.show {
+            bottom: 0;
+        }
+
+        .sheet-handle {
+            width: 40px;
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin: 0 auto 20px auto;
+        }
+
+        .sheet-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border 0.3s;
+            background: #fafafa;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .form-textarea {
+            resize: none;
+            height: 120px;
+        }
+
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .chip {
+            background: #e0f7fa;
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: 0.2s;
+        }
+
+        .chip:active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: auto;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 131, 143, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            box-shadow: none;
+        }
+
+        /* پیام‌های Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            z-index: 300;
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            bottom: 120px;
+        }
+
+        /* لودینگ */
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--primary);
+        }
+        
+        .loader.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر -->
+    <header>
+        <h1>شبکه اجتماعی حرم مطهر رضوی</h1>
+        <p>درد و دل‌های خود را با امام رضا (ع) در میان بگذارید</p>
+    </header>
+
+    <!-- تب 1: خانه -->
+    <div id="tab-home" class="tab-content active">
+        <div class="media-card">
+            <div class="media-icon"><i class="ti ti-video"></i></div>
+            <div class="media-info">
+                <h3>کلیپ تصویری حرم</h3>
+                <p>تماشای صحن و سرای امام رضا (ع)</p>
+            </div>
+        </div>
+        <div class="media-card">
+            <div class="media-icon" style="background:#e8f5e9; color:#43a047;"><i class="ti ti-music"></i></div>
+            <div class="media-info">
+                <h3>آهنگ‌های معنوی</h3>
+                <p>نوای دلنشین حرم رضوی</p>
+            </div>
+        </div>
+        <div class="media-card">
+            <div class="media-icon" style="background:#fff3e0; color:#fb8c00;"><i class="ti ti-book"></i></div>
+            <div class="media-info">
+                <h3>زیارت‌نامه</h3>
+                <p>متن زیارت امین‌الله</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- تب 2: درد و دل‌ها -->
+    <div id="tab-messages" class="tab-content">
+        <div class="chat-container" id="chat-list">
+            <!-- پیام‌ها با JS اضافه می‌شوند -->
+        </div>
+        <div class="loader" id="loader">در حال دریافت پیام‌ها...</div>
+    </div>
+
+    <!-- تب 3: صلوات و نائب‌الزیاره -->
+    <div id="tab-stats" class="tab-content">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-salavat-display">۰</div>
+                <div class="stat-label">کل صلوات‌ها</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-nayeb-display">۰</div>
+                <div class="stat-label">نائب‌الزیاره‌ها</div>
+            </div>
+        </div>
+
+        <div class="action-card" onclick="sendAction('salavat')">
+            <div class="action-icon"><i class="ti ti-heart-handshake"></i></div>
+            <div class="action-title">صلوات بفرست</div>
+            <div class="action-desc">اللهم صل علی محمد و آل محمد</div>
+        </div>
+
+        <div class="action-card" onclick="sendAction('nayeb')">
+            <div class="action-icon" style="color: var(--primary);"><i class="ti ti-walk"></i></div>
+            <div class="action-title">نائب‌الزیاره شوید</div>
+            <div class="action-desc">به نیابت از حضرت صاحب الزمان (عج)</div>
+        </div>
+    </div>
+
+    <!-- نوار پایین -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="switchTab('home', this)">
+            <i class="ti ti-home"></i>
+            <span>خانه</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchTab('messages', this)">
+            <i class="ti ti-message-circle"></i>
+            <span>درد و دل‌ها</span>
+        </a>
+        
+        <!-- دکمه شناور وسط -->
+        <div class="fab-center" onclick="openBottomSheet()">
+            <i class="ti ti-pencil"></i>
+        </div>
+
+        <a href="#" class="nav-item" onclick="switchTab('stats', this)">
+            <i class="ti ti-heart"></i>
+            <span>صلوات</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showToast('به زودی...')">
+            <i class="ti ti-user"></i>
+            <span>پروفایل</span>
+        </a>
+    </nav>
+
+    <!-- Bottom Sheet -->
+    <div class="bottom-sheet-overlay" id="sheet-overlay" onclick="closeBottomSheet()"></div>
+    <div class="bottom-sheet" id="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">درد و دل با امام رضا (ع)</div>
+        
+        <div class="form-group">
+            <input type="text" class="form-input" id="input-name" placeholder="نام شما (اختیاری)">
+        </div>
+        <div class="form-group">
+            <input type="tel" class="form-input" id="input-phone" placeholder="شماره تماس (اختیاری)">
+        </div>
+        
+        <div class="chips-container">
+            <div class="chip" onclick="setChip('🤲 دعا برای آرامش قلب')">🤲 آرامش قلب</div>
+            <div class="chip" onclick="setChip('🌿 شفای مریض')">🌿 شفای مریض</div>
+            <div class="chip" onclick="setChip('💚 سلامتی و عاقبت‌به‌خیری')">💚 سلامتی</div>
+            <div class="chip" onclick="setChip('🕊️ فرج و گشایش')">🕊️ فرج و گشایش</div>
+            <div class="chip" onclick="setChip('🌙 هدایت و ایمان')">🌙 هدایت</div>
+            <div class="chip" onclick="setChip('✨ حاجت‌های دنیا و آخرت')">✨ حاجت‌ها</div>
+        </div>
+
+        <div class="form-group" style="flex: 1;">
+            <textarea class="form-textarea" id="input-message" placeholder="اینجا بنویسید..."></textarea>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="submitMessage()">ارسال به امام رضا (ع)</button>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">پیام شما ثبت شد</div>
+
+    <script>
+        // ==========================================
+        // تنظیمات API (این لینک را با لینک Apps Script خود عوض کنید)
+        // ==========================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbx.../exec"; 
+        
+        // دیتای شبیه‌سازی‌شده برای تست (اگر API_URL وصل نبود)
+        let mockMessages = [
+            { name: "زائر امام رضا (ع)", message: "سلام ای امام غریب. دلم گرفته، برام دعا کن. خیلی دوستت دارم." },
+            { name: "مریم", message: "از راه دور بهت سلام می‌کنم آقا. التماس دعا دارم برای شفای مادرم." },
+            { name: "علی", message: "آقا جان، این متن خیلی طولانی است تا دکمه بیشتر را تست کنیم. دلم می‌خواهد بدانم که تو هم صدای من را می‌شنوی. خیلی وقت است که درگیر مشکلات هستم و فقط به تو امید دارم. یا علی بن موسی الرضا، مدد کن." }
+        ];
+        let mockStats = { totalSalavat: 1250, totalNayeb: 340 };
+        let isMock = false; // اگر لینک API ندارید، این را true کنید
+
+        // ==========================================
+        // مدیریت تب‌ها
+        // ==========================================
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            if (tabId === 'messages') {
+                loadMessages();
+            } else if (tabId === 'stats') {
+                loadStats();
+            }
+        }
+
+        // ==========================================
+        // Bottom Sheet
+        // ==========================================
+        function openBottomSheet() {
+            document.getElementById('sheet-overlay').classList.add('show');
+            document.getElementById('bottom-sheet').classList.add('show');
+        }
+
+        function closeBottomSheet() {
+            document.getElementById('sheet-overlay').classList.remove('show');
+            document.getElementById('bottom-sheet').classList.remove('show');
+        }
+
+        function setChip(text) {
+            const textarea = document.getElementById('input-message');
+            textarea.value += (textarea.value ? ' ' : '') + text + '. ';
+            textarea.focus();
+        }
+
+        // ==========================================
+        // ارسال پیام
+        // ==========================================
+        async function submitMessage() {
+            const name = document.getElementById('input-name').value.trim();
+            const phone = document.getElementById('input-phone').value.trim();
+            const message = document.getElementById('input-message').value.trim();
+            const btn = document.getElementById('submit-btn');
+
+            if (!message) {
+                showToast('لطفاً متن درد و دل خود را بنویسید.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'در حال ارسال...';
+
+            const payload = {
+                type: 'message',
+                name: name || "زائر امام رضا (ع)",
+                phone: phone,
+                message: message
+            };
+
+            if (isMock) {
+                // شبیه‌سازی ارسال
+                setTimeout(() => {
+                    mockMessages.unshift({ name: payload.name, message: payload.message });
+                    finishSubmit(btn);
+                }, 1000);
+            } else {
+                try {
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+                    finishSubmit(btn);
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید.');
+                    btn.disabled = false;
+                    btn.innerText = 'ارسال به امام رضا (ع)';
+                }
+            }
+        }
+
+        function finishSubmit(btn) {
+            showToast('درد و دل شما با موفقیت ثبت شد 🌹');
+            document.getElementById('input-message').value = '';
+            document.getElementById('input-name').value = '';
+            document.getElementById('input-phone').value = '';
+            
+            btn.disabled = false;
+            btn.innerText = 'ارسال به امام رضا (ع)';
+            closeBottomSheet();
+            
+            // رفتن به تب درد و دل‌ها
+            const msgTabNav = document.querySelectorAll('.nav-item')[1];
+            switchTab('messages', msgTabNav);
+        }
+
+        // ==========================================
+        // دریافت پیام‌ها
+        // ==========================================
+        async function loadMessages() {
+            const list = document.getElementById('chat-list');
+            const loader = document.getElementById('loader');
+            
+            loader.classList.add('active');
+            
+            let messages = [];
+
+            if (isMock) {
+                messages = mockMessages;
+            } else {
+                try {
+                    // در حالت واقعی، فقط اگر لیست خالی بود یا کاربر دکمه رفرش زد، از سرور می‌خوانیم
+                    // اینجا برای سادگی هر بار می‌خوانیم، اما در نسخه نهایی کش می‌کنیم
+                    const res = await fetch(API_URL);
+                    const data = await res.json();
+                    messages = data.messages || [];
+                    localStorage.setItem('cachedMessages', JSON.stringify(messages));
+                } catch (e) {
+                    // اگر خطا داد، از کش می‌خوانیم
+                    const cached = localStorage.getItem('cachedMessages');
+                    if (cached) messages = JSON.parse(cached);
+                }
+            }
+
+            loader.classList.remove('active');
+            list.innerHTML = '';
+
+            messages.forEach((msg, index) => {
+                const bubble = document.createElement('div');
+                bubble.className = 'chat-bubble';
+                
+                // بررسی طول متن برای دکمه بیشتر
+                const isLong = msg.message.length > 100;
+                const displayText = isLong ? msg.message.substring(0, 100) + '...' : msg.message;
+
+                bubble.innerHTML = `
+                    <div class="chat-name"><i class="ti ti-user-circle"></i> ${msg.name}</div>
+                    <div class="chat-text" id="msg-text-${index}">${displayText}</div>
+                    ${isLong ? `<button class="read-more-btn" id="btn-more-${index}" onclick="toggleReadMore(${index}, '${msg.message.replace(/'/g, "\\'")}')">بیشتر</button>` : ''}
+                `;
+                list.appendChild(bubble);
+                
+                if (isLong) {
+                    setTimeout(() => {
+                        document.getElementById(`btn-more-${index}`).style.display = 'block';
+                    }, 10);
+                }
+            });
+        }
+
+        function toggleReadMore(index, fullText) {
+            const textEl = document.getElementById(`msg-text-${index}`);
+            const btnEl = document.getElementById(`btn-more-${index}`);
+            
+            if (textEl.classList.contains('expanded')) {
+                textEl.classList.remove('expanded');
+                textEl.innerText = fullText.substring(0, 100) + '...';
+                btnEl.innerText = 'بیشتر';
+            } else {
+                textEl.classList.add('expanded');
+                textEl.innerText = fullText;
+                btnEl.innerText = 'بستن';
+            }
+        }
+
+        // ==========================================
+        // آمار (صلوات و نائب‌الزیاره)
+        // ==========================================
+        async function loadStats() {
+            let stats = mockStats;
+
+            if (!isMock) {
+                try {
+                    const res = await fetch(API_URL);
+                    const data = await res.json();
+                    stats = data.stats;
+                } catch (e) {
+                    console.log('Error loading stats');
+                }
+            }
+
+            document.getElementById('total-salavat-display').innerText = toPersianNum(stats.totalSalavat);
+            document.getElementById('total-nayeb-display').innerText = toPersianNum(stats.totalNayeb);
+        }
+
+        async function sendAction(actionType) {
+            // افکت لمسی
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            const payload = { type: 'salavat', action: actionType };
+
+            if (isMock) {
+                if (actionType === 'salavat') mockStats.totalSalavat++;
+                else mockStats.totalNayeb++;
+                loadStats();
+                showToast(actionType === 'salavat' ? 'صلوات شما ثبت شد 🌹' : 'نائب‌الزیاره شما ثبت شد 🕊️');
+            } else {
+                try {
+                    const res = await fetch(API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        document.getElementById('total-salavat-display').innerText = toPersianNum(data.totalSalavat);
+                        document.getElementById('total-nayeb-display').innerText = toPersianNum(data.totalNayeb);
+                        showToast(actionType === 'salavat' ? 'صلوات شما ثبت شد 🌹' : 'نائب‌الزیاره شما ثبت شد 🕊️');
+                    }
+                } catch (e) {
+                    showToast('خطا در ارتباط با سرور');
+                }
+            }
+        }
+
+        // ==========================================
+        // ابزارهای کمکی
+        // ==========================================
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function toPersianNum(num) {
+            return num.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+        }
+
+        // اجرای اولیه
+        window.onload = () => {
+            // اگر می‌خواهید با دیتای فیک تست کنید، این خط را از کامنت درآورید:
+            // isMock = true; 
+            
+            if (isMock) {
+                loadMessages();
+                loadStats();
+            }
+        };
+
+    </script>
+</body>
+</html>

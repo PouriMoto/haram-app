@@ -1,0 +1,20 @@
+[
+  {
+    "title": "ای صفای قلب زارم",
+    "artist": "حسین طاهری",
+    "src": "assets/music/ey-safaye-ghalbe-zaram-hossein-taheri.mp3",
+    "cover": "assets/images/cover2.webp"
+  },
+  {
+    "title": "امام رضا جانم",
+    "artist": "حسین ستوده",
+    "src": "assets/music/imam-reza-janam-hossein-sotudeh.mp3",
+    "cover": "assets/images/cover3.webp"
+  },
+  {
+    "title": "صلوات خاصه امام رضا (ع)",
+    "artist": "علیرضا انصاریان",
+    "src": "assets/music/salavat-khas-reza-ansarian.mp3",
+    "cover": "assets/images/cover.webp"
+  }
+]
