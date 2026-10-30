@@ -3,7 +3,7 @@
 // ==========================================
 
 // لینک Google Apps Script خود را اینجا قرار دهید (وقتی آماده شد)
-const API_URL = ""; 
+const API_URL = "https://script.google.com/macros/s/AKfycbyhm34BXh21Hpt0RLKEByjJQO8X8CygC8cu6IDogYrE_Vi-fiIAk6So84GKjZcuBA/exec"; 
 
 // اگر API_URL خالی باشد، برنامه در حالت تست (Mock) اجرا می‌شود
 let isMock = true;
